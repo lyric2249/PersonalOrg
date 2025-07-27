@@ -169,3 +169,185 @@ FROM 학생 USE INDEX (학생_IDX01)
 4. COLLATION
 5. HISTOGRAM
 
+
+---
+## 3.2. 실행 계획 수행
+
+### 3.2.2. 기본 실행 계획 항목 분석
+
+![[Pasted image 20250727143828.png]]
+
+1. ID
+	1. 조인되는 테이블끼리는 똑같은 ID가 표시됨
+2. SELECT_TYPE
+	1. SIMPLE
+	2. PRIMARY
+	3. SUBQUERY
+	4. DERIVED
+	5. UNION
+	6. UNION RESULT
+	7. DEPENDENT SUBQUERY
+	8. DEPENDENT UNION
+	9. UNCACHEABLE SUBQUERY
+	10. MATERIALIZED
+3. TABLE
+4. PARTITIONS
+5. TYPE
+	1. system
+	2. const
+	3. eq_ref
+	4. ref
+	5. ref_or_null
+	6. range
+	7. fulltext
+	8. index_merge
+	9. index
+	10. ALL
+6. possible_keys
+7. key
+8. key_len
+9. ref
+10. rows
+11. filtered
+12. extra
+	1. Distinct
+	2. Using where
+	3. Using temporary
+	4. Using index
+	5. Using filesort
+	6. Using join buffer
+	7. Using union / Using intersect / Using sort_union
+	8. Using index condition
+	9. Using index condition (BKA)
+	10. Using index for group-by
+	11. Not exists
+
+
+
+
+---
+### 3.2.3. 좋고 나쁨을 판단하는 기준
+
+
+- 2. SIMPLE_TYPE
+	- 좋음: SIMPLE, PRIMARY, DERIVED
+	- 나쁨: DEPENDENT ~, UNCACHEABLE ~
+- 5. TYPE
+	- 좋음: SYSTEM, CONST, EQ_REF
+	- 나쁨: INDEX, ALL
+- 12. EXTRA
+	- 좋음: USING INDEX
+	- 나쁨: USING FILESORT, USING TEMPORARY
+
+---
+### 3.2.4. 확장된 실행 계획 수행
+
+1. Mysql
+	1. EXPLAIN FORMAT = TRADITIONAL
+	2. EXPLAIN FORMAT = TREE
+	3. EXPLAIN FORMAT = JSON
+	4. EXPLAIN ANALYZE
+2. MariaDB
+	1. EXPLAIN PARTITIONS
+	2. EXPLAIN EXTENDED
+	3. ANALYZE
+
+
+
+---
+### 3.3. PROFILING
+
+
+
+
+
+
+
+
+
+---
+# 4. SQL 튜닝
+
+---
+## 4.1. SQL 튜닝 준비
+
+### 4.2.1. 기본키 변형
+1. SQL 실행결과 & 현황 파악
+	1. 결과 및 소요시간 확인
+	2. 조인/서브쿼리 구조
+	3. 동등/범위 조건
+2. 체크요소
+	1. 가시적
+		1. 테이블의 데이터 건수
+		2. SELECT 절 컬럼 분석
+		3. 조건절 컬럼 분석
+		4. 그루핑/정렬 컬럼
+	2. 비가시적
+		1. 실행계획
+		2. 인덱스 현황
+		3. 데이터 변경 추이
+		4. 업무적 특징
+3. 튜닝 방향 판단 & 개선/적용
+
+
+---
+## 4.2. 튜닝 케이스
+
+### 4.2.1. 기본키 변형 → 온존
+
+```SQL
+-- 튜닝 전
+EXPLAIN
+SELECT *
+FROM 사원
+WHERE SUBSTRING(사원번호,1,4) = 1100
+AND LENGTH(사원번호) = 5;
+
+-- 튜닝 후
+EXPLAIN
+SELECT *
+FROM 사원
+WHERE 사원번호 BETWEEN 11000 AND 11009;
+```
+
+
+### 4.2.2. 미사용 함수 포함
+
+```SQL
++----------+---------------+------+-----+---------+-------+
+| Field    | Type          | Null | Key | Default | Extra |
++----------+---------------+------+-----+---------+-------+
+| 사원번호 | int           | NO   | PRI | NULL    |       |
+| 생년월일 | date          | NO   |     | NULL    |       |
+| 이름     | varchar(14)   | NO   |     | NULL    |       |
+| 성       | varchar(16)   | NO   |     | NULL    |       |
+| 성별     | enum('M','F') | NO   | MUL | NULL    |       |
+| 입사일자 | date          | NO   | MUL | NULL    |       |
++----------+---------------+------+-----+---------+-------+
+
+SELECT IFNULL(성별,'NO DATA') AS 성별, COUNT(1) 건수
+FROM 사원
+GROUP BY IFNULL(성별,'NO DATA');
+
+SELECT 성별, COUNT(1) 건수
+FROM 사원
+GROUP BY 성별;
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
