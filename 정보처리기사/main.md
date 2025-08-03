@@ -178,6 +178,16 @@ people
 	1. $FP = (총 기능점수) * [0.65 + (0.1*총 영향도)]$
 
 
+일정 관리 모델
+
+* 주 공정법(CPM)
+* PERT
+* CCPM
+* Gantt Chart
+
+위험 관리
+
+회피 / 전가 / 완화 / 수용
 
 
 
@@ -185,12 +195,106 @@ people
 
 
 
+# 2. 현행 시스템 분석 - 현행 시스템 파악
+
+## 현행 시스템 파악 개념
+
+### 파악 절차
+
+1. 구성 / 기능 / 인터페이스 파악
+2. 아키텍처 / 소트프웨어 구성 파악
+3. 하드웨어 / 네트워크 구성 파악 
+
+### SA
+
+1. 소프트웨어 아키텍처
+2. 소프트웨어 아키텍처 프레임워크
+3. 소프트웨어 아키텍처 4+1 뷰
+	1. 유스케이스 뷰
+	2. 논리 뷰
+	3. 프로세스 뷰
+	4. 구현 뷰
+	5. 배포 퓨
+4. 소프트웨어 아키텍처 패턴
+	1. Layered
+	2. Client-Server
+	3. Pipe-Filter
+	4. Broker
+	5. MVC
+		1. 대화형 어플리케이션
+	6. Master-Slave
+		1. 실시간 시스템
+5. 비용 평가모델
+	1. SAAM
+	2. ATAM
+		1. 아키텍처 품질 속성
+	3. CBAM
+	4. ADR
+	5. ARID
+
+
+###  디자인 패턴
+
+1. CSB
+2. C
+	1. Builder
+	2. Prototype
+	3. Factory Method
+	4. Abstract Factory (Kit)
+	5. Singleton
+3. S
+	1. Bridge
+	2. Decorator
+	3. Facade
+	4. Flyweight
+	5. Proxy
+	6. Composite
+	7. Adapter
+4. B
+	1. Mediator
+	2. Interpreter
+	3. Iterator
+	4. Template Method
+	5. Observer
+	6. State
+	7. Visitor
+	8. Command
+	9. Strategy
+	10. Memento
+		1. Undo
+	11. Chain of Responsibility
+		1. 하드코딩
+
+
+## 요구사항
+
+### 요구공학
+
+### 분류
+1. 기능적 요구사항
+2. 비기능적 요구사항
+
+* 요구사항 개발 단계 (CMM Level 3 프로세스)
+	1. Elicitation
+		1. Interview / Brainstroming / Delphi / 롤플레잉 / Workshop / survery / prototype
+	2. Analysis
+		1. DFD / Data Dictionary / UML
+	3. Specification
+		1. 비정형
+		2. 정형: Z-schema, Petri NEts, 상태 차트
+		* 요구사항 명세서
+	4. Validation
+		1. Peer Review / Walk Through / Inspection
 
 
 
-
-
-
+* 요구사항 관리 단계 (CMM Level 2 프로세스)
+	* 협상
+	* 기준선 설정
+		* 형상 관리
+	* 변경 관리
+		* 형상 통제 위원회회
+	* 확인 및 검증
 
 
 
