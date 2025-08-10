@@ -204,6 +204,7 @@
 ② Dependency
 ③ Realization
 ④ Generalization
+
 36. 다음 중 자료 사전(Data Dictionary)에서 선택의 의미를 나타내는 것은?
 ① [ ]
 ② { }
